@@ -13,6 +13,8 @@ if (isset($_POST['id'])) {
 
     if ($token == $token_tmp) {
 
+
+
         if (isset($_SESSION['carrito']['productos'][$id])) {
             $_SESSION['carrito']['productos'][$id] += $cantidad;
         } else {

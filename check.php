@@ -4,8 +4,9 @@ require 'config/config.php';
 
 $db = new dataBase();
 $con = $db->conectar();
-
 $producto = isset($_SESSION['carrito']['productos']) ? $_SESSION['carrito']['productos'] : null;
+
+print_r($_SESSION);
 
 $lista_carrito = array();
 if ($producto != null) {
@@ -70,18 +71,18 @@ if ($producto != null) {
                                         <td colspan="4" class="py-4">No hay productos en el carrito</td>
                                     </tr>
                                     <?php } else {
-                                    $total = 0;
+
                                     foreach ($lista_carrito as $item) {
                                         if (empty($item)) continue;
-
 
                                         $_id = $item['id'];
                                         $nombre = $item['nombre'];
                                         $precio = $item['precio'];
                                         $descuento = $item['descuento'];
+                                        $cantidad = $item['cantidad'];
                                         $precio_desc = $precio - (($precio * $descuento) / 100);
                                         $subtotal = $cantidad * $precio_desc;
-                                        $total += $subtotal; ?>
+                                    ?>
                                         <tr>
                                             <td><?= $nombre ?></td>
                                             <td><?= MONEDA . number_format($precio_desc, 2, '.', ',') ?></td>
@@ -100,7 +101,8 @@ if ($producto != null) {
                                         </tr>
                                     <?php } ?>
                                     <td>
-                                        <p><?= MONEDA . number_format($total, 2, '.', ',') ?></p>
+                                        <p id="total"><?= MONEDA ?></p>
+
                                     </td>
                                 <?php } ?>
                                 <div>
@@ -125,23 +127,33 @@ if ($producto != null) {
                     formData.append('action', 'agregar')
                     formData.append('id', id)
                     formData.append('cantidad', cantidad)
-
                     fetch(url, {
                             method: 'POST',
                             body: formData,
-                            code: 'cors'
-                        }).then(response => response.json())
+                            mode: 'cors'
+                        })
+                        .then(response => response.json())
                         .then(data => {
-                            console.log("Respuesta del servidor:", data);
-                            if (data.ok) {
-                                console.log("Respuesta del servidor:", data);
+                            console.log("Respuesta cruda:", data);
 
-                                let divSubtotal = document.getElementById('subtotal_' + id)
-                                console.log("Div total:", divSubtotal);
-                                divSubtotal.innerHTML = data.divSubtotal
+                            if (data.ok) {
+                                let divSubtotal = document.getElementById('subtotal_' + id);
+                                if (divSubtotal) {
+                                    divSubtotal.innerHTML = data.sub;
+                                }
+
+                                let divTotal = document.getElementById('total');
+                                if (divTotal) {
+                                    divTotal.innerHTML = data.total;
+                                    console.log(divTotal);
+                                }
 
                             }
                         })
+                        .catch(error => {
+                            console.error("Error en fetch:", error);
+                        });
+
                 }
             </script>
 
