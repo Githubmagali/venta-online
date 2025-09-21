@@ -98,51 +98,53 @@ if ($id == '' ||  $token == '') {
         </div>
 </body>
 <script>
-function addProducto(id, token, cantidad = 1) {
+    function addProducto(id, token, cantidad = 1) {
 
-    let url = 'clases/carrito.php'
-    let formData = new FormData() //creo un objeto vacio, quesimula un formulario html
-    //que luego vas a mandar en la peticion fetch
-    formData.append('id', id); // append lo agrega el final, con Append agregas la clave valor dentro de ese formData
-    formData.append('token', token);
-    formData.append('cantidad', cantidad);
+        let url = 'clases/carrito.php'
+        let formData = new FormData() //creo un objeto vacio, quesimula un formulario html
+        //que luego vas a mandar en la peticion fetch
+        formData.append('id', id); // append lo agrega el final, con Append agregas la clave valor dentro de ese formData
+        formData.append('token', token);
+        formData.append('cantidad', cantidad);
+        console.log(cantidad)
 
-    fetch(url, {
-            method: 'POST',
-            body: formData,
-            mode: 'cors' //cors permite hacer peticiones a otro dominio
-        }).then(response => response.json())
-        .then(data => {
-            console.log("Respuesta del servidor:", data);
-            if (data.ok) {
-                let elemento = document.getElementById('num_cart')
-                console.log("Elemento :", elemento);
-                elemento.innerHTML = data.numero;
-            }
-        })
-}
+        fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'cors' //cors permite hacer peticiones a otro dominio
+            }).then(response => response.json())
+            .then(data => {
+                console.log("Respuesta del servidor:", data);
+                if (data.ok) {
+                    let elemento = document.getElementById('num_cart')
+                    elemento.innerHTML = data.numero;
+                    console.log("Elemento :", data.numero);
 
-function deleteProducto(id, token, restarUno = -1) {
+                }
+            })
+    }
 
-    let url = 'clases/carrito.php'
-    let formData = new FormData()
+    function deleteProducto(id, token, restarUno = -1) {
 
-    formData.append('id', id)
-    formData.append('token', token)
-    formData.append('restarUno', restarUno)
+        let url = 'clases/carrito.php'
+        let formData = new FormData()
 
-    fetch(url, {
-            method: 'POST',
-            body: formData,
-            mode: 'cors'
-        }).then(response => response.json())
-        .then(data => {
-            if (data.ok) {
-                let elemento = document.getElementById('num_cart')
-                elemento.innerHTML = data.numero; //data.numero para actualizar el DOM en tiempo real.
-            }
-        })
-}
+        formData.append('id', id)
+        formData.append('token', token)
+        formData.append('restarUno', restarUno)
+
+        fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'cors'
+            }).then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    let elemento = document.getElementById('num_cart')
+                    elemento.innerHTML = data.numero; //data.numero para actualizar el DOM en tiempo real.
+                }
+            })
+    }
 </script>
 
 </html>

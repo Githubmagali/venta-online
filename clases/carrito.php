@@ -7,20 +7,20 @@ if (isset($_POST['id'])) {
 
     $id = $_POST['id']; //viene desde formData
     $token = $_POST['token'];
-    $cantidad = isset($_POST['cantidad']) ? (int)$_POST['cantidad'] : 0;
+    $cantidad = $_POST['cantidad'];
     $restar   = isset($_POST['restarUno']) ? (int)$_POST['restarUno'] : 0;
     $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
 
     if ($token == $token_tmp) {
 
         if (isset($_SESSION['carrito']['productos'][$id])) {
-            $_SESSION['carrito']['productos'][$id] += 1;
+            $_SESSION['carrito']['productos'][$id] += $cantidad;
         } else {
-            $_SESSION['carrito']['productos'][$id] = 1;
+            $_SESSION['carrito']['productos'][$id] = $cantidad;
         }
 
 
-        $datos['numero'] = count($_SESSION['carrito']['productos']);
+        $datos['numero'] = array_sum($_SESSION['carrito']['productos']);
         $datos['ok'] = true;
     } else {
         $datos['ok'] = false;
