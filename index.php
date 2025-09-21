@@ -70,6 +70,7 @@ $resul = $sql->fetchAll(PDO::FETCH_ASSOC);
 
 
 
+
             <script>
             // Seleccionamos el contenedor del menú
             const menu = document.getElementById("menu");

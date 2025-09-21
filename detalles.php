@@ -86,6 +86,10 @@ if ($id == '' ||  $token == '') {
                         class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                         Agregar al carrito
                     </button>
+                    <button onclick="deleteProducto(<?= $id; ?>,'<?= $token_tmp; ?>')" type="button"
+                        class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        Borrar unidad
+                    </button>
                 </div>
 
 
@@ -99,9 +103,9 @@ function addProducto(id, token, cantidad = 1) {
     let url = 'clases/carrito.php'
     let formData = new FormData() //creo un objeto vacio, quesimula un formulario html
     //que luego vas a mandar en la peticion fetch
-    formData.append('id', id) // append lo agrega el final, con Append agregas la clave valor dentro de ese formData
-    formData.append('token', token)
-    formData.append('cantidad', cantidad)
+    formData.append('id', id); // append lo agrega el final, con Append agregas la clave valor dentro de ese formData
+    formData.append('token', token);
+    formData.append('cantidad', cantidad);
 
     fetch(url, {
             method: 'POST',
@@ -112,7 +116,30 @@ function addProducto(id, token, cantidad = 1) {
         .then(data => {
             if (data.ok) {
                 let elemento = document.getElementById('num_cart')
-                elemento.innerHTML = data.numero
+                elemento.innerHTML = data.numero;
+            }
+        })
+}
+
+function deleteProducto(id, token, restarUno = -1) {
+
+    let url = 'clases/carrito.php'
+    let formData = new FormData()
+
+    formData.append('id', id)
+    formData.append('token', token)
+    formData.append('restarUno', restarUno)
+
+    fetch(url, {
+            method: 'POST',
+            body: formData,
+            mode: 'cors'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                let elemento = document.getElementById('num_cart')
+                elemento.innerHTML = data.numero;
             }
         })
 }
