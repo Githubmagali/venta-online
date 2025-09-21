@@ -86,7 +86,7 @@ if ($producto != null) {
                                     <td><?= $nombre ?></td>
                                     <td><?= MONEDA . number_format($precio_desc, 2, '.', ',') ?></td>
                                     <td>
-                                        <input type="number" min="" value="<?= $cantidad ?>" id="cantidad_ <?= $_id ?>"
+                                        <input type="number" min="" value="<?= $cantidad ?>" id="cantidad_<?= $_id ?>"
                                             onchange="actualizaCantidad(this.value,<?= $_id ?>)" />
                                     </td>
                                     <td>
@@ -174,8 +174,10 @@ if ($producto != null) {
                     .then(data => {
                         console.log("Respuesta del servidor:", data);
                         if (data.ok) {
+                            console.log("Respuesta del servidor:", data);
 
                             let divSubtotal = document.getElementById('subtotal_' + id)
+                            console.log("Div total:", divSubtotal);
                             divSubtotal.innerHTML = data.divSubtotal
 
                         }

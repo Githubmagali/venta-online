@@ -116,6 +116,7 @@ function addProducto(id, token, cantidad = 1) {
             console.log("Respuesta del servidor:", data);
             if (data.ok) {
                 let elemento = document.getElementById('num_cart')
+                console.log("Elemento :", elemento);
                 elemento.innerHTML = data.numero;
             }
         })

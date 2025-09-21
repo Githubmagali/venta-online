@@ -14,16 +14,13 @@ if (isset($_POST['id'])) {
     if ($token == $token_tmp) {
 
         if (isset($_SESSION['carrito']['productos'][$id])) {
-            $_SESSION['carrito']['productos'][$id] += $cantidad + $restar;
-
-            #Si llega a 0
-            if ($_SESSION['carrito']['productos'][$id] <= 0) {
-                unset($_SESSION['carrito']['productos'][$id]);
-            }
+            $_SESSION['carrito']['productos'][$id] += 1;
+        } else {
+            $_SESSION['carrito']['productos'][$id] = 1;
         }
 
 
-        $datos['numero'] = array_sum($_SESSION['carrito']['productos']);
+        $datos['numero'] = count($_SESSION['carrito']['productos']);
         $datos['ok'] = true;
     } else {
         $datos['ok'] = false;
