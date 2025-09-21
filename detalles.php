@@ -82,7 +82,7 @@ if ($id == '' ||  $token == '') {
                     <button type="submit" class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                         Comprar
                     </button>
-                    <button onclick="addProducto(<?= $id; ?>,'<?= $token_tmp; ?>')" type="button"
+                    <button onclick="addProducto(<?= $id; ?>,'<?= $token_tmp; ?>', 1)" type="button"
                         class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                         Agregar al carrito
                     </button>
@@ -94,13 +94,14 @@ if ($id == '' ||  $token == '') {
         </div>
 </body>
 <script>
-function addProducto(id, token) {
+function addProducto(id, token, cantidad = 1) {
 
     let url = 'clases/carrito.php'
     let formData = new FormData() //creo un objeto vacio, quesimula un formulario html
     //que luego vas a mandar en la peticion fetch
     formData.append('id', id) // append lo agrega el final, con Append agregas la clave valor dentro de ese formData
     formData.append('token', token)
+    formData.append('cantidad', cantidad)
 
     fetch(url, {
             method: 'POST',
