@@ -57,7 +57,7 @@ if ($id == '' ||  $token == '') {
             <a href="">Inicio</a>
             <a href="">Salir</a>
             <div>
-                <span id="num_cart">Carrito</span>
+                <span id="num_cart"><?= $num_cart ?></span>
             </div>
         </div>
     </div>
@@ -97,8 +97,9 @@ if ($id == '' ||  $token == '') {
 function addProducto(id, token) {
 
     let url = 'clases/carrito.php'
-    let formData = new FormData()
-    formData.append('id', id) // append lo agrega el final
+    let formData = new FormData() //creo un objeto vacio, quesimula un formulario html
+    //que luego vas a mandar en la peticion fetch
+    formData.append('id', id) // append lo agrega el final, con Append agregas la clave valor dentro de ese formData
     formData.append('token', token)
 
     fetch(url, {
