@@ -82,7 +82,7 @@ if ($id == '' ||  $token == '') {
                     <button type="submit" class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                         Comprar
                     </button>
-                    <button onclick="addProducto(<?= $id; ?>,'<?= $token_tmp; ?>', 1)" type="button"
+                    <button onclick="addProducto(<?= $id; ?>,'<?= $token_tmp; ?>')" type="button"
                         class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                         Agregar al carrito
                     </button>
@@ -111,9 +111,9 @@ function addProducto(id, token, cantidad = 1) {
             method: 'POST',
             body: formData,
             mode: 'cors' //cors permite hacer peticiones a otro dominio
-        }).then(
-            response => response.json())
+        }).then(response => response.json())
         .then(data => {
+            console.log("Respuesta del servidor:", data);
             if (data.ok) {
                 let elemento = document.getElementById('num_cart')
                 elemento.innerHTML = data.numero;
@@ -134,12 +134,11 @@ function deleteProducto(id, token, restarUno = -1) {
             method: 'POST',
             body: formData,
             mode: 'cors'
-        })
-        .then(response => response.json())
+        }).then(response => response.json())
         .then(data => {
             if (data.ok) {
                 let elemento = document.getElementById('num_cart')
-                elemento.innerHTML = data.numero;
+                elemento.innerHTML = data.numero; //data.numero para actualizar el DOM en tiempo real.
             }
         })
 }

@@ -2,12 +2,13 @@
 
 require '../config/config.php';
 
+
 if (isset($_POST['id'])) {
 
     $id = $_POST['id']; //viene desde formData
     $token = $_POST['token'];
-    $cantidad = $_POST['cantidad'];
-    $restar = $_POST['restarUno'];
+    $cantidad = isset($_POST['cantidad']) ? (int)$_POST['cantidad'] : 0;
+    $restar   = isset($_POST['restarUno']) ? (int)$_POST['restarUno'] : 0;
     $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
 
     if ($token == $token_tmp) {
@@ -19,8 +20,6 @@ if (isset($_POST['id'])) {
             if ($_SESSION['carrito']['productos'][$id] <= 0) {
                 unset($_SESSION['carrito']['productos'][$id]);
             }
-        } else {
-            $_SESSION['carrito']['productos'][$id] = max($cantidad + $restar, 0);
         }
 
 
@@ -33,6 +32,7 @@ if (isset($_POST['id'])) {
     $datos['ok'] = false;
 }
 
+header('Content-Type: application/json');  //le digo al navegador que lo que devuelvo es un jsn
 echo json_encode($datos); #Convierte el array asociativo de PHP ($datos) en un string en formato JSON.
 #transforma en {"numero": 3, "ok" : true}
 
