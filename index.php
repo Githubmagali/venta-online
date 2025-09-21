@@ -34,7 +34,7 @@ $resul = $sql->fetchAll(PDO::FETCH_ASSOC);
             <div class="flex gap-x-5" id="menu">
                 <a href="">Inicio</a>
                 <a href="">Salir</a>
-                <a href="carrito.php">Carrito <span id="num_cart"><?= $num_cart ?></span></a>
+                <a href="check.php">Carrito <span id="num_cart"><?= $num_cart ?></span></a>
             </div>
         </div>
         <div>

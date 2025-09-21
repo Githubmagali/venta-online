@@ -45,7 +45,7 @@ if ($producto != null) {
             <div class="flex gap-x-5" id="menu">
                 <a href="">Inicio</a>
                 <a href="">Salir</a>
-                <a href="carrito.php">Carrito <span id="num_cart"><?= $num_cart ?></span></a>
+                <a href="check.php">Carrito <span id="num_cart"><?= $num_cart ?></span></a>
             </div>
         </div>
         <div>
@@ -72,6 +72,7 @@ if ($producto != null) {
                                 <?php } else {
                                     $total = 0;
                                     foreach ($lista_carrito as $item) {
+                                        if (empty($item)) continue;
 
 
                                         $_id = $item['id'];
@@ -86,10 +87,10 @@ if ($producto != null) {
                                     <td><?= MONEDA . number_format($precio_desc, 2, '.', ',') ?></td>
                                     <td>
                                         <input type="number" min="" value="<?= $cantidad ?>" id="cantidad_ <?= $_id ?>"
-                                            onchange="" />
+                                            onchange="actualizaCantidad(this.value,<?= $_id ?>)" />
                                     </td>
                                     <td>
-                                        <div id="subtotal_ <?= $_id ?>" name="subtotal[]">
+                                        <div id="subtotal_<?= $_id; ?>" name="subtotal[]">
                                             <?= MONEDA . number_format($subtotal, 2, '.', ',');  ?>
                                         </div>
                                     </td>
@@ -98,7 +99,13 @@ if ($producto != null) {
 
                                 </tr>
                                 <?php } ?>
+                                <td>
+                                    <p><?= MONEDA . number_format($total, 2, '.', ',') ?></p>
+                                </td>
                                 <?php } ?>
+                                <div>
+                                    <button>Realizar pago</button>
+                                </div>
                             </tbody>
                         </table>
                     </div>
@@ -149,6 +156,31 @@ if ($producto != null) {
             toggleButton.addEventListener("click", () => {
                 extraButtons.classList.toggle("hidden");
             });
+
+
+            function actualizaCantidad(cantidad, id) {
+
+                let url = 'clases/actualizar_carrito.php'
+                let formData = new FormData()
+                formData.append('action', 'agregar')
+                formData.append('id', id)
+                formData.append('cantidad', cantidad)
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        code: 'cors'
+                    }).then(response => response.json())
+                    .then(data => {
+                        console.log("Respuesta del servidor:", data);
+                        if (data.ok) {
+
+                            let divSubtotal = document.getElementById('subtotal_' + id)
+                            divSubtotal.innerHTML = data.divSubtotal
+
+                        }
+                    })
+            }
             </script>
 
 
