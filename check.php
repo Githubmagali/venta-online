@@ -19,8 +19,6 @@ if ($producto != null) {
         $sql->execute([$clave]);
 
         $lista_carrito[] = $sql->fetch(PDO::FETCH_ASSOC);
-
-        #print_r($lista_carrito);
     }
 }
 #hash_hmac() sifra una informacion mediante una contraseña
@@ -46,7 +44,7 @@ if ($producto != null) {
             <div class="flex gap-x-5" id="menu">
                 <a href="">Inicio</a>
                 <a href="">Salir</a>
-                <a href="check.php">Carrito <span id="num_cart"><?= $num_cart ?></span></a>
+                <a href="check.php">Carrito <span id="num_cart"></span></a>
             </div>
         </div>
         <div>
@@ -90,7 +88,7 @@ if ($producto != null) {
                                             <td><?= $nombre ?></td>
                                             <td><?= MONEDA . number_format($precio_desc, 2, '.', ',') ?></td>
                                             <td>
-                                                <input type="number" min="" value="<?= $cantidad ?>" id="cantidad_<?= $_id ?>"
+                                                <input type="number" min="0" value="<?= $cantidad ?>" id="cantidad_<?= $_id ?>"
                                                     onchange="actualizaCantidad(this.value,<?= $_id ?>)" />
                                             </td>
                                             <td>
