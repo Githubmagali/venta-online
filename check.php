@@ -42,7 +42,7 @@ if ($producto != null) {
         <div class="flex justify-between items-center bg-gray-50 py-5 px-20 ">
             <div>Logo</div>
             <div class="flex gap-x-5" id="menu">
-                <a href="">Inicio</a>
+                <a href="index.php">Inicio</a>
                 <a href="">Salir</a>
                 <a href="check.php">Carrito <span id="num_cart"></span></a>
             </div>

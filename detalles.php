@@ -107,13 +107,20 @@ if ($id == '' ||  $token == '') {
         formData.append('id', id); // append lo agrega el final, con Append agregas la clave valor dentro de ese formData
         formData.append('token', token);
         formData.append('cantidad', cantidad);
-        console.log(cantidad)
+
 
         fetch(url, {
                 method: 'POST',
                 body: formData,
                 mode: 'cors' //cors permite hacer peticiones a otro dominio
-            }).then(response => response.json())
+            }).then(response => {
+                //  console.log("respnse", response);
+
+                if (!response.ok) {
+                    throw new Error("Error HTTP:" + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log("Respuesta del servidor:", data);
                 if (data.ok) {
@@ -122,6 +129,9 @@ if ($id == '' ||  $token == '') {
                     console.log("Elemento :", data.numero);
 
                 }
+            })
+            .catch(error => {
+                console.error("Error en el fetch", error);
             })
     }
 

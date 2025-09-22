@@ -1,6 +1,6 @@
 <?php
-
 require '../config/config.php';
+require '../config/database.php';
 
 
 if (isset($_POST['id'])) {
@@ -20,19 +20,17 @@ if (isset($_POST['id'])) {
         } else {
             $_SESSION['carrito']['productos'][$id] = $cantidad;
         }
-
-
-        $datos['numero'] = array_sum($_SESSION['carrito']['productos']);
-        $datos['ok'] = true;
+        $data['numero'] = array_sum($_SESSION['carrito']['productos']);
+        $data['ok'] = true;
     } else {
-        $datos['ok'] = false;
+        $data['ok'] = false;
     }
 } else {
-    $datos['ok'] = false;
+    $data['ok'] = false;
 }
 
 header('Content-Type: application/json');  //le digo al navegador que lo que devuelvo es un jsn
-echo json_encode($datos); #Convierte el array asociativo de PHP ($datos) en un string en formato JSON.
+echo json_encode($data); #Convierte el array asociativo de PHP ($datos) en un string en formato JSON.
 #transforma en {"numero": 3, "ok" : true}
 
 #echo envia ese string el JSON como respuesta al navegador
