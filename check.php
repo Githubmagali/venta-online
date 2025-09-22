@@ -6,7 +6,7 @@ $db = new dataBase();
 $con = $db->conectar();
 $producto = isset($_SESSION['carrito']['productos']) ? $_SESSION['carrito']['productos'] : null;
 
-print_r($_SESSION);
+
 
 $lista_carrito = array();
 if ($producto != null) {
@@ -71,9 +71,11 @@ if ($producto != null) {
                                         <td colspan="4" class="py-4">No hay productos en el carrito</td>
                                     </tr>
                                     <?php } else {
-
+                                    $total = 0;
                                     foreach ($lista_carrito as $item) {
                                         if (empty($item)) continue;
+                                        #print_r($item);
+
 
                                         $_id = $item['id'];
                                         $nombre = $item['nombre'];
@@ -82,6 +84,7 @@ if ($producto != null) {
                                         $cantidad = $item['cantidad'];
                                         $precio_desc = $precio - (($precio * $descuento) / 100);
                                         $subtotal = $cantidad * $precio_desc;
+                                        $total += $cantidad * $precio_desc;
                                     ?>
                                         <tr>
                                             <td><?= $nombre ?></td>
@@ -92,7 +95,7 @@ if ($producto != null) {
                                             </td>
                                             <td>
                                                 <div id="subtotal_<?= $_id; ?>" name="subtotal[]">
-                                                    <?= MONEDA . $subtotal  ?>
+                                                    <p><?= MONEDA . number_format($subtotal, 2, '.', ',') ?></p>
                                                 </div>
                                             </td>
                                             <td><a href="#" id="eliminar" data-bs-id="<?= $_id ?>" data-bs-toogle="modal"
@@ -101,7 +104,8 @@ if ($producto != null) {
                                         </tr>
                                     <?php } ?>
                                     <td>
-                                        <p id="total"><?= MONEDA ?></p>
+                                        <p id="total"><?= MONEDA . number_format($total, 2, '.', ',') ?></p>
+
 
                                     </td>
                                 <?php } ?>
@@ -133,6 +137,7 @@ if ($producto != null) {
                             mode: 'cors'
                         })
                         .then(response => response.json())
+
                         .then(data => {
                             console.log("Respuesta cruda:", data);
 
@@ -145,14 +150,12 @@ if ($producto != null) {
                                 let divTotal = document.getElementById('total');
                                 if (divTotal) {
                                     divTotal.innerHTML = data.total;
-                                    console.log(divTotal);
+                                    console.log("El total es:", divTotal);
                                 }
 
                             }
                         })
-                        .catch(error => {
-                            console.error("Error en fetch:", error);
-                        });
+
 
                 }
             </script>

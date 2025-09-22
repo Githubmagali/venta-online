@@ -4,8 +4,6 @@ require '../config/database.php';
 
 
 if (isset($_POST['action'])) {
-
-
     $action = $_POST['action'];
     $id = isset($_POST['id']) ? $_POST['id'] : 0;
 
@@ -35,8 +33,6 @@ exit;
 function agregar($id, $cantidad)
 {
 
-
-
     $res = 0;
 
     if ($id > 0 && $cantidad > 0 && is_numeric(($cantidad))) {
@@ -63,23 +59,25 @@ function agregar($id, $cantidad)
 
 function calcularTotal()
 {
+    $total1 = 0;
 
-    $total = 0;
-
-    if (isset($_SESSION['carrito']['productos'])) {
-
+    if (isset($_SESSION['carrito']['productos']) && !empty($_SESSION['carrito']['productos'])) {
         $db = new dataBase();
         $con = $db->conectar();
 
-        foreach ($_SESSION['carrito']['productos'] as $id =>  $cantidad) {
-            $sql = $con->prepare("SELECT precio, descuento FROM productos WHERE id=? AND activo = 1");
+        foreach ($_SESSION['carrito']['productos'] as $id => $cantidad) {
+            $sql = $con->prepare("SELECT precio, descuento FROM productos WHERE id=? AND activo=1");
             $sql->execute([$id]);
             $row = $sql->fetch(PDO::FETCH_ASSOC);
             if ($row) {
                 $precio_desc = $row['precio'] - (($row['precio'] * $row['descuento']) / 100);
-                $total += $cantidad * $precio_desc;
+                $total1 += $cantidad * $precio_desc;
             }
         }
     }
-    return $total;
+
+
+    return $total1;
 }
+
+echo json_encode($total1);

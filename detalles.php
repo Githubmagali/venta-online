@@ -57,6 +57,7 @@ if ($id == '' ||  $token == '') {
             <a href="">Inicio</a>
             <a href="">Salir</a>
             <div>
+                <a href="check.php">Carrito</a>
                 <span id="num_cart"><?= $num_cart ?></span>
             </div>
         </div>
