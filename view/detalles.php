@@ -20,8 +20,7 @@ $row = $data->getProductoControllerId($id);
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Detalle del producto</title>
-        <!--Tailwind-->
-        <script src="https://cdn.tailwindcss.com"></script>
+
     </head>
     <div class="flex justify-between items-center bg-gray-50 py-5 px-20 ">
         <div>Logo</div>

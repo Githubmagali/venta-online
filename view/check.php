@@ -37,7 +37,7 @@ if (isset($_POST['eliminar'])) {
 <!DOCTYPE html>
 <html lang="en">
 
-<body>
+<body class="">
 
     <head>
         <meta charset="UTF-8">
@@ -46,64 +46,60 @@ if (isset($_POST['eliminar'])) {
         <title>Tienda online</title>
     </head>
 
-    <body class="bg-gray-100">
+    <div class="bg-gray-100 container p-20 ">
+        <nav class="navbar fixed-top bg-body-tertiary justify-content-between">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Logo</a>
+                <div class="d-flex gap-5 px-5 text-decoration-none ">
+                    <a class="text-decoration-none text-dark " href="index.php?view=inicio">Inicio</a>
+                    <a class="text-decoration-none text-dark " href="">Salir</a>
+                    <a class="text-decoration-none text-dark " href="index.php?view=carrito">Carrito</a>
+                </div>
 
-        <div class="d-flex justify-content-between px-5 ">
-            <div>Logo</div>
-            <div class="d-flex justify-content-between px-5 gap-5" id="menu">
-                <a href="index.php?view=inicio">Inicio</a>
-                <a href="">Salir</a>
-                <a href="index.php?view=carrito">Carrito</a>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-3  text-center p-3">Columna 1</div>
+                <div class="col-3   text-center p-3">Columna 2</div>
+
             </div>
         </div>
 
-        <main class="d-flex justify-content-center">
-            <div class="w-full max-w-4xl">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full border border-gray-200 text-center">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="py-2 px-4 border-b">Producto</th>
-                                <th class="py-2 px-4 border-b">Precio</th>
-                                <th class="py-2 px-4 border-b">Cantidad</th>
-                                <th class="py-2 px-4 border-b">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($productos as $item) { ?>
-                                <tr>
-                                    <form method="post">
-                                        <td class="py-2 px-4 border-b">
-                                            <input type="text" name="productoPost" value="<?= $item['nombre'] ?>" readonly
-                                                class="bg-transparent text-center w-full" />
-                                        </td>
-                                        <td class="py-2 px-4 border-b">
-                                            <input type="text" name="precioPost" value="<?= $item['precio'] ?>" readonly
-                                                class="bg-transparent text-center w-full" />
-                                        </td>
-                                        <td class="py-2 px-4 border-b">
-                                            <input type="number" min="1" name="cantidadPost"
-                                                value="<?= isset($_SESSION['carrito'][$item['nombre']]['cantidad']) ? $_SESSION['carrito'][$item['nombre']]['cantidad'] : 1 ?>"
-                                                class="text-center w-20 border rounded" />
-                                        </td>
-                                        <input type="hidden" name="id" value="<?= $item['id'] ?>" />
-                                        <td class="py-2 px-4 border-b">
-                                            <button type="submit" name="btnPost"
-                                                class="px-3 py-1 bg-green-500 text-white rounded">Agregar</button>
-                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#modalEliminar" data-id="<?= $item['id'] ?>">
-                                                Eliminar
-                                            </button>
+        <main class="container py-5">
+            <div class="row g-4">
+                <!-- g-4 agrega espacio entre columnas y filas -->
+                <?php foreach ($productos as $item) { ?>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <!-- 1 columna en mov, 2 en md, 4 en lg -->
+                        <form method="post">
+                            <div class="card h-100 text-center shadow-sm">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h5 class="card-title"><?= htmlspecialchars($item['nombre']) ?></h5>
+                                    <p class="card-text mb-2">Precio:
+                                        <?= MONEDA . " " . number_format($item['precio'], 2) ?></p>
 
-                                        </td>
-                                    </form>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
+                                    <div class="mb-3">
+                                        <label for="cantidad_<?= $item['id'] ?>" class="form-label">Cantidad:</label>
+                                        <input type="number" min="1" name="cantidadPost" id="cantidad_<?= $item['id'] ?>"
+                                            value="<?= isset($_SESSION['carrito'][$item['nombre']]['cantidad']) ? $_SESSION['carrito'][$item['nombre']]['cantidad'] : 1 ?>"
+                                            class="form-control text-center">
+                                    </div>
+
+                                    <input type="hidden" name="productoPost" value="<?= $item['nombre'] ?>">
+                                    <input type="hidden" name="precioPost" value="<?= $item['precio'] ?>">
+                                    <input type="hidden" name="id" value="<?= $item['id'] ?>">
+
+                                    <button type="submit" name="btnPost" class="btn btn-success mt-auto">Agregar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                <?php } ?>
             </div>
         </main>
+
+
 
         <!--Overlay -->
         <!-- Modal Eliminar -->
@@ -128,25 +124,27 @@ if (isset($_POST['eliminar'])) {
                 </div>
             </div>
         </div>
+    </div>
 
 
 
-    </body>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const modalEliminar = document.getElementById('modalEliminar');
-            const inputEliminar = document.getElementById('inputEliminar');
+</body>
 
-            if (modalEliminar) {
-                modalEliminar.addEventListener('show.bs.modal', (event) => {
-                    const button = event.relatedTarget;
-                    const id = button.getAttribute('data-id');
-                    inputEliminar.value = id;
-                });
-            }
-        });
-    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modalEliminar = document.getElementById('modalEliminar');
+        const inputEliminar = document.getElementById('inputEliminar');
+
+        if (modalEliminar) {
+            modalEliminar.addEventListener('show.bs.modal', (event) => {
+                const button = event.relatedTarget;
+                const id = button.getAttribute('data-id');
+                inputEliminar.value = id;
+            });
+        }
+    });
+</script>
 
 
 </html>
