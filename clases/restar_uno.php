@@ -4,9 +4,9 @@
 
 $action   = $_POST['action']   ?? '';
 $id       = $_POST['id'] ?? '';
-$cantidad = $_POST['cantidad'] ?? '';
+$restarUno = $_POST['restarUno'] ?? '';
 
-if ($action === 'agregar' && $id > 0 && $cantidad > 0) {
+if ($action === 'quitar') {
 
     // Total del carrito
     $total = 2;

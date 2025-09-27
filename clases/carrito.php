@@ -1,26 +1,20 @@
 <?php
-require '../config/config.php';
-require '../config/database.php';
 
-
-if (isset($_POST['id'])) {
-
-    $id = $_POST['id']; //viene desde formData
-    $token = $_POST['token'];
-    $cantidad = $_POST['cantidad'];
-    $restar   = isset($_POST['restarUno']) ? (int)$_POST['restarUno'] : 0;
-    $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
-
+if (isset($_POST['id']) && $_POST['cantidad']) {
     if ($token == $token_tmp) {
+        $id = $_POST['id'];
+        $token = $_POST['token'];
+        $cantidad = $_POST['cantidad'];
+        $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
 
-
-
-        if (isset($_SESSION['carrito']['productos'][$id])) {
-            $_SESSION['carrito']['productos'][$id] += $cantidad;
-        } else {
-            $_SESSION['carrito']['productos'][$id] = $cantidad;
+        if (isset($cantidad)) {
+            if (isset($_SESSION['carrito']['productos'][$id])) {
+                $_SESSION['carrito']['productos'][$id] += $cantidad;
+            } else {
+                $_SESSION['carrito']['productos'][$id] = $cantidad;
+            }
         }
-        $data['numero'] = array_sum($_SESSION['carrito']['productos']);
+        $data['numero'] = array_sum($_SESSION['carrito']['productos'] ?? []);
         $data['ok'] = true;
     } else {
         $data['ok'] = false;
@@ -28,6 +22,31 @@ if (isset($_POST['id'])) {
 } else {
     $data['ok'] = false;
 }
+
+
+if (isset($_POST['id']) && $_POST['restarUno']) {
+    if ($token == $token_tmp) {
+        $id = $_POST['id'];
+        $token = $_POST['token'];
+        $cantidad = $_POST['restarUno'];
+        $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
+
+        if (isset($cantidad)) {
+            if (isset($_SESSION['carrito']['productos'][$id])) {
+                $_SESSION['carrito']['productos'][$id] -= $cantidad;
+            } else {
+                $_SESSION['carrito']['productos'][$id] = $cantidad;
+            }
+        }
+        $data['numero'] = array_sum($_SESSION['carrito']['productos'] ?? []);
+        $data['ok'] = true;
+    } else {
+        $data['ok'] = false;
+    }
+} else {
+    $data['ok'] = false;
+}
+
 
 header('Content-Type: application/json');  //le digo al navegador que lo que devuelvo es un jsn
 echo json_encode($data); #Convierte el array asociativo de PHP ($datos) en un string en formato JSON.

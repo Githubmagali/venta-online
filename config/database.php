@@ -1,5 +1,5 @@
 <?php
-
+/*
 class dataBase
 {
 
@@ -29,3 +29,4 @@ class dataBase
         }
     }
 }
+*/
