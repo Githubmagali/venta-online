@@ -18,9 +18,13 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 
 
-$_SESSION['carrito']['producto'] = "";
-$_SESSION['carrito']['cantidad'] = "";
-$_SESSION['carrito']['precio'] = "";
+if (!isset($_SESSION['carrito'])) { //comprobamos que exista para no pisar lo que ya tengo en el carritp
+    $_SESSION['carrito'] = [];
+}
+#session_unset();    // limpia todas las variables de $_SESSION
+#session_destroy();  // destruye la sesión actual
+
+
 
 
 
