@@ -19,14 +19,18 @@ $resul = $datos->productosController();
 <body class="d-flex flex-column  min-vh-100">
 
     <main class="flex-fill">
-        <div class="d-flex justify-content-between py-3 bg-body-tertiary">
+        <div class="d-flex justify-content-between py-3 bg-body-tertiary align-items-center">
             <div class="px-4">Logo</div>
             <div class="d-flex gap-5 px-4" id="menu">
                 <a href="index.php?view=inicio">Inicio</a>
                 <a href="index.php?view=check">Comprar productos</a>
-                <div>
-                    <a href="index.php?view=carrito">Carrito</a>
+                <a href="index.php?view=carrito">Carrito</a>
+                <div class="d-flex flex-column">
+                    <input type="text" id="buscar" class="" placeholder="Buscar...">
+                    <div id="resultados" class="mt-3 z-3"></div>
                 </div>
+
+
             </div>
         </div>
 
@@ -74,6 +78,30 @@ $resul = $datos->productosController();
             </p>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#buscar").keyup(function() {
+                let consulta = $(this).val();
+
+                if (consulta != "") {
+                    $.ajax({
+                        url: "clases/buscar.php",
+                        method: "POST",
+                        data: {
+                            query: consulta
+                        },
+                        success: function(data) {
+                            $("#resultados").html(data);
+                        }
+                    });
+                } else {
+                    $("#resultados").html("");
+                }
+            });
+        });
+    </script>
+
 
 </body>
 

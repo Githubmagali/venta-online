@@ -16,7 +16,7 @@ require 'controller/productosController.php';
 require 'controller/enlacesController.php';
 require 'model/productosModel.php';
 require 'model/enlacesModel.php';
-require 'clases/actualizar_carrito.php';
+
 
 
 
