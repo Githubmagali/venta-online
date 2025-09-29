@@ -25,29 +25,29 @@ if (isset($_POST['eliminar'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
 </head>
 
 
 <body class="d-flex flex-column  min-vh-100">
     <main class="flex-fill">
-        <nav class="navbar fixed-top bg-body-tertiary justify-content-between">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Logo</a>
-                <div class="d-flex gap-5 px-5 text-decoration-none ">
-                    <a class="text-decoration-none text-dark " href="index.php?view=inicio">Inicio</a>
-                    <a class="text-decoration-none text-dark " href="">Salir</a>
-                    <a class="text-decoration-none text-dark " href="index.php?view=check">volver</a>
+        <div
+            class="col-12 d-flex flex-column flex-lg-row justify-content-lg-between py-3 bg-body-tertiary align-items-lg-center">
+            <div class="mb-3 mb-lg-0">Logo</div>
 
-                </div>
+            <div class="d-flex flex-column align-items-lg-center flex-lg-row gap-2 gap-lg-4" id="menu">
+                <a href="index.php?view=inicio">Inicio</a>
+                <a href="index.php?view=check">Comprar</a>
 
             </div>
-        </nav>
+        </div>
 
-        <div class="d-flex justify-content-center w-100" style="padding-top: 200px;">
+
+        <div class="d-flex justify-content-center w-100 " style="padding-top: 20px;">
             <div class="container my-4">
                 <div class="container my-4">
                     <div class="table-responsive shadow rounded">
-                        <table class="table table-striped table-hover align-middle text-center">
+                        <table class="table table-striped table-hover  text-center">
                             <thead class="table-dark">
                                 <tr>
                                     <th>Producto</th>

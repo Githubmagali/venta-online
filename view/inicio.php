@@ -19,24 +19,28 @@ $resul = $datos->productosController();
 <body class="d-flex flex-column  min-vh-100">
 
     <main class="flex-fill">
-        <div class="d-flex justify-content-between py-3 bg-body-tertiary align-items-center">
-            <div class="px-4">Logo</div>
-            <div class="d-flex gap-5 px-4" id="menu">
+        <div
+            class="col-12 d-flex flex-column flex-lg-row justify-content-lg-between py-3 bg-body-tertiary align-items-lg-center">
+            <div class="mb-3 mb-lg-0">Logo</div>
+
+            <div class="d-flex flex-column align-items-lg-center flex-lg-row gap-2 gap-lg-4" id="menu">
                 <a href="index.php?view=inicio">Inicio</a>
-                <a href="index.php?view=check">Comprar productos</a>
+                <a href="index.php?view=check">Comprar</a>
                 <a href="index.php?view=carrito">Carrito</a>
-                <div class="d-flex flex-column">
-                    <input type="text" id="buscar" class="" placeholder="Buscar...">
-                    <div id="resultados" class="mt-3 z-3"></div>
+
+
+                <div class="position-relative">
+                    <input type="text" id="buscar" class="border rounded-5 border-dark" placeholder="Buscar...">
+                    <div id="resultados" class="list-group position-absolute end-0 mt-1 shadow w-100">
+
+                    </div>
                 </div>
-
-
             </div>
         </div>
 
 
+
         <div class="max-w-6xl mx-auto py-10 px-5" style="padding-top: 80px;">
-            <h1 class="text-2xl font-bold mb-6 p-5">Nuestros productos</h1>
 
             <!-- Contenedor de productos -->
             <div class="container">

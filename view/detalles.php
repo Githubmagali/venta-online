@@ -62,14 +62,13 @@ if (isset($_POST['btnBorrarPost'])) {
 <body class="d-flex flex-column  min-vh-100">
 
     <main class="flex-fill">
-        <div class="d-flex justify-content-between py-3 bg-gradient">
-            <div class="px-4">Logo</div>
-            <div class="d-flex gap-5 px-4" id="menu">
+        <div
+            class="col-12 d-flex flex-column flex-lg-row justify-content-lg-between py-3 bg-body-tertiary align-items-lg-center">
+            <div class="mb-3 mb-lg-0">Logo</div>
+            <div class="d-flex flex-column align-items-lg-center flex-lg-row gap-2 gap-lg-4" id="menu">
                 <a href="index.php?view=inicio">Inicio</a>
-                <a href="">Salir</a>
-                <div>
-                    <a href="index.php?view=carrito">Carrito</a>
-                </div>
+                <a href="index.php?view=check">Comprar</a>
+                <a href="index.php?view=carrito">Carrito</a>
             </div>
         </div>
 
@@ -77,7 +76,7 @@ if (isset($_POST['btnBorrarPost'])) {
             <h1 class="text-2xl font-bold mb-6 p-5">Detalle</h1>
         </div>
 
-        <div class="px-lg-4">
+        <div class="px-4">
             <div class="row align-items-center">
                 <div class="col-12 col-lg-6 d-flex justify-content-center mb-4 mb-lg-0">
                     <div class="bg-light rounded-lg d-flex align-items-center justify-content-center w-100"
@@ -98,11 +97,11 @@ if (isset($_POST['btnBorrarPost'])) {
                         <input type="hidden" name="productoPost" value="<?= $row['nombre'] ?>" />
                         <input type="hidden" name="precioPost" value="<?= $row['precio'] ?>" />
 
-                        <div class="mt-3">
-                            <button type="submit" name="btnPost" class="btn btn-outline-dark me-2">
+                        <div class="mt-3  d-flex flex-column flex-sm-row gap-5">
+                            <button type="submit" name="btnPost" class=" btn btn-outline-dark">
                                 Agregar al carrito
                             </button>
-                            <button type="submit" name="btnBorrarPost" class="btn btn-danger">
+                            <button type="submit" name="btnBorrarPost" class=" btn btn-danger">
                                 Borrar unidad
                             </button>
                         </div>
