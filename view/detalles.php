@@ -92,7 +92,7 @@ if (isset($_POST['btnBorrarPost'])) {
                         <h2 class="h3"><?= $row['nombre'] ?></h2>
                         <p class="text-muted"><?= $row['descripcion'] ?></p>
                         <p class="fw-bold"><?= MONEDA . number_format($row['precio'], 2, ',', '.'); ?></p>
-                        <p class="text-danger"><?= MONEDA . number_format($row['descuento'], 2, ',', '.'); ?></p>
+                        <!--  <p class="text-danger"><?= MONEDA . number_format($row['descuento'], 2, ',', '.'); ?></p>-->
 
                         <input type="hidden" name="cantidadPost" value="1" />
                         <input type="hidden" name="productoPost" value="<?= $row['nombre'] ?>" />
