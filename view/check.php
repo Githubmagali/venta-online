@@ -1,7 +1,7 @@
 <?php
 $producto = new productosController();
 $productos = $producto->productosController();
-print_r($productos);
+#print_r($productos);
 
 if (isset($_POST['btnPost'])) {
     $id = $_POST['id'];
@@ -37,46 +37,48 @@ if (isset($_POST['eliminar'])) {
 <!DOCTYPE html>
 <html lang="en">
 
-<body class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda online</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+</head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>Tienda online</title>
-    </head>
-
-    <div class="bg-gray-100 container p-20 ">
-        <nav class="navbar fixed-top bg-body-tertiary justify-content-between">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Logo</a>
-                <div class="d-flex gap-5 px-5 text-decoration-none ">
-                    <a class="text-decoration-none text-dark " href="index.php?view=inicio">Inicio</a>
-                    <a class="text-decoration-none text-dark " href="">Salir</a>
-                    <a class="text-decoration-none text-dark " href="index.php?view=carrito">Carrito</a>
+<body class="d-flex flex-column  min-vh-100">
+    <main class="flex-fill">
+        <div class="d-flex justify-content-between py-3 bg-body-tertiary">
+            <div class="px-4">Logo</div>
+            <div class="d-flex gap-5 px-4" id="menu">
+                <a href="index.php?view=inicio">Inicio</a>
+                <a href="index.php?view=check">Comprar productos</a>
+                <div>
+                    <a href="index.php?view=carrito">Carrito</a>
                 </div>
-
-            </div>
-        </nav>
-        <div class="container">
-            <div class="row">
-                <div class="col-3  text-center p-3">Columna 1</div>
-                <div class="col-3   text-center p-3">Columna 2</div>
-
             </div>
         </div>
 
-        <main class="container py-5">
-            <div class="row g-4">
-                <!-- g-4 agrega espacio entre columnas y filas -->
-                <?php foreach ($productos as $item) { ?>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <!-- 1 columna en mov, 2 en md, 4 en lg -->
-                        <form method="post">
-                            <div class="card h-100 text-center shadow-sm">
-                                <div class="card-body d-flex flex-column justify-content-between">
-                                    <h5 class="card-title"><?= htmlspecialchars($item['nombre']) ?></h5>
-                                    <p class="card-text mb-2">Precio:
+
+        <div class=" py-5">
+            <div class="d-flex flex-column mb-6 p-5 ">
+                <h1 class="text-2xl font-bold "> </h1>
+
+                <a class="text-dark" href="index.php?view=inicio">Volver</a>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <?php foreach ($productos as $item) { ?>
+                        <div class="col-12 col-md-6 col-lg-3 mb-4">
+
+                            <form method="post" class="card h-100">
+                                <div class=" bg-gray-300 rounded-lg flex items-center justify-center">
+                                    <img src="img/<?= $item['img'] ?>" class="img-fluid" />
+                                </div>
+                                <div class="card-body d-flex flex-column">
+
+                                    <h5 class="mt-4 font-semibold text-lg"><?= htmlspecialchars($item['nombre']) ?></h5>
+                                    <p class="text-gray-500 text-sm"><?= $item['descripcion'] ?></p>
+                                    <p class="text-gray-500 text-sm">Precio:
                                         <?= MONEDA . " " . number_format($item['precio'], 2) ?></p>
 
                                     <div class="mb-3">
@@ -91,18 +93,18 @@ if (isset($_POST['eliminar'])) {
                                     <input type="hidden" name="id" value="<?= $item['id'] ?>">
 
                                     <button type="submit" name="btnPost" class="btn btn-success mt-auto">Agregar</button>
+
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                <?php } ?>
+                            </form>
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
-        </main>
+        </div>
 
 
 
         <!--Overlay -->
-        <!-- Modal Eliminar -->
         <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -124,10 +126,17 @@ if (isset($_POST['eliminar'])) {
                 </div>
             </div>
         </div>
-    </div>
-
-
-
+    </main>
+    <!--Footer -->
+    <footer class="bg-secondary-subtle text-white bg-opacity-100 text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; <?= date('Y') ?> Fernandez Magali Victoria</p>
+            <p class="mb-0">
+                <a href="#" class="text-white text-decoration-none me-3">Política de privacidad</a>
+                <a href="#" class="text-white text-decoration-none">Contacto</a>
+            </p>
+        </div>
+    </footer>
 
 </body>
 

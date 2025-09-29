@@ -1,12 +1,50 @@
 <?php
 
+//print_r($_SESSION);
+
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
 $token_tmp = "";
-
-
 $data = new productosController();
 $row = $data->getProductoControllerId($id);
+#print_r($row);
+#print_r($_SESSION);
+if (isset($_POST['btnPost'])) {
+    $producto = $_POST['productoPost'];
+    $precio   = $_POST['precioPost'];
+    $cantidad = $_POST['cantidadPost'];
+
+    //Si no esta en el carrito
+    if (!isset($_SESSION['carrito'])) {
+        $_SESSION['carrito'] = [];
+    }
+
+    //Si existe acumula
+    if (isset($_SESSION['carrito'][$producto])) {
+        $_SESSION['carrito'][$producto]['cantidad'] += $cantidad;
+    } else {
+        $_SESSION['carrito'][$producto] = [
+            'cantidad' => $cantidad,
+            'precio' => $precio,
+            'id' => $id
+        ];
+    }
+}
+if (isset($_POST['btnBorrarPost'])) {
+    $producto = $_POST['productoPost'];
+    $precio   = $_POST['precioPost'];
+    $cantidad = $_POST['cantidadPost'];
+
+
+    if (isset($_SESSION['carrito'][$producto])) {
+        $_SESSION['carrito'][$producto]['cantidad'] -= $cantidad;
+    }
+
+    //cuando llega a cero lo saco del carrito
+    if ($_SESSION['carrito'][$producto]['cantidad'] <= 0) {
+        unset($_SESSION['carrito'][$producto]);
+    }
+}
 
 
 
@@ -14,160 +52,77 @@ $row = $data->getProductoControllerId($id);
 <!DOCTYPE html>
 <html lang="en">
 
-<body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del producto</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+</head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Detalle del producto</title>
+<body class="d-flex flex-column  min-vh-100">
 
-    </head>
-    <div class="flex justify-between items-center bg-gray-50 py-5 px-20 ">
-        <div>Logo</div>
-        <div class="flex gap-x-5" id="menu">
-            <a href="">Inicio</a>
-            <a href="">Salir</a>
-            <div>
-                <a href="index.php?view=check">Carrito</a>
-                <span id="num_cart">Cantidad carrito</span>
+    <main class="flex-fill">
+        <div class="d-flex justify-content-between py-3 bg-gradient">
+            <div class="px-4">Logo</div>
+            <div class="d-flex gap-5 px-4" id="menu">
+                <a href="index.php?view=inicio">Inicio</a>
+                <a href="">Salir</a>
+                <div>
+                    <a href="index.php?view=carrito">Carrito</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div>
 
-        <div class="max-w-6xl mx-auto py-10 px-5">
-            <h1 class="text-2xl font-bold mb-6">Detalle</h1>
+        <div>
+            <h1 class="text-2xl font-bold mb-6 p-5">Detalle</h1>
+        </div>
 
-            <!-- Contenedor de productos -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-                <!-- Producto 1 -->
-
-                <div class="bg-white shadow-md rounded-2xl p-4 flex flex-col items-center">
-                    <div class="w-full h-40 bg-gray-300 rounded-lg flex items-center justify-center">
-                        <span class="text-gray-600">Imagen</span>
+        <div class="px-lg-4">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-6 d-flex justify-content-center mb-4 mb-lg-0">
+                    <div class="bg-light rounded-lg d-flex align-items-center justify-content-center w-100"
+                        style="max-width:900px;">
+                        <img src="img/<?= $row['img'] ?>" class="img-fluid" alt="<?= $row['nombre'] ?>">
                     </div>
-                    <h2 class="mt-4 font-semibold text-lg"><?= $row['nombre'] ?></h2>
-                    <p class="text-gray-500 text-sm"><?= $row['descripcion'] ?></p>
-                    <p class="text-gray-500 text-sm"><?= MONEDA . number_format($row['precio'], 2, ',', '.'); ?></p>
-                    <p><?= MONEDA . number_format($row['descuento'], 2, ',', '.'); ?></p>
-
-                    <button onclick="addProducto(<?= $id; ?>)" type="button"
-                        class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                        Agregar al carrito
-                    </button>
-                    <button onclick="deleteProducto(<?= $id; ?>)" type="button"
-                        class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                        Borrar unidad
-                    </button>
                 </div>
 
 
+                <div class="col-12 col-lg-6">
+                    <form method="post" class="d-flex flex-column gap-3">
+                        <h2 class="h3"><?= $row['nombre'] ?></h2>
+                        <p class="text-muted"><?= $row['descripcion'] ?></p>
+                        <p class="fw-bold"><?= MONEDA . number_format($row['precio'], 2, ',', '.'); ?></p>
+                        <p class="text-danger"><?= MONEDA . number_format($row['descuento'], 2, ',', '.'); ?></p>
 
+                        <input type="hidden" name="cantidadPost" value="1" />
+                        <input type="hidden" name="productoPost" value="<?= $row['nombre'] ?>" />
+                        <input type="hidden" name="precioPost" value="<?= $row['precio'] ?>" />
+
+                        <div class="mt-3">
+                            <button type="submit" name="btnPost" class="btn btn-outline-dark me-2">
+                                Agregar al carrito
+                            </button>
+                            <button type="submit" name="btnBorrarPost" class="btn btn-danger">
+                                Borrar unidad
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+    </main>
+
+    <!--Footer -->
+    <footer class="bg-secondary-subtle text-white bg-opacity-100 text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; <?= date('Y') ?> Fernandez Magali Victoria</p>
+            <p class="mb-0">
+                <a href="#" class="text-white text-decoration-none me-3">Política de privacidad</a>
+                <a href="#" class="text-white text-decoration-none">Contacto</a>
+            </p>
+        </div>
+    </footer>
 </body>
-<script>
-    function addProducto(id, cantidad = 1) {
 
-        let url = 'clases/actualizar_carrito.php'
-        let formData = new FormData()
-        formData.append('action', 'agregar')
-        formData.append('id', id)
-        formData.append('cantidad', cantidad)
-
-        fetch(url, {
-                method: 'POST',
-                body: formData,
-                mode: 'cors'
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error HTTP: " + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Respuesta del servidor:", data);
-
-                if (data.ok) {
-                    // actualizar subtotal, unidades de producto
-                    let divSubtotal = document.getElementById('subtotal_' + id)
-                    if (divSubtotal) {
-                        divSubtotal.innerHTML = data.sub
-                        console.log("Elemento", data.sub)
-                    }
-
-                    // actualizar total de productos del carrito
-                    let divTotal = document.getElementById('total')
-                    if (divTotal) {
-                        divTotal.innerHTML = data.total
-                        console.log("Elemento", data.total)
-                    }
-
-                    // Cantidad de unidades en el carrito
-                    let elemento = document.getElementById('num_cart')
-                    if (elemento) {
-                        elemento.innerHTML = data.numero
-                        console.log("Elemento", data.numero)
-                    }
-                }
-            })
-            .catch(error => {
-                console.error("Error en el fetch:", error);
-            })
-    }
-
-
-    function deleteProducto(id, restarUno = 1) {
-
-        let url = 'clases/restar_uno.php'
-        let formData = new FormData()
-        formData.append('action', 'quitar')
-        formData.append('id', id)
-        formData.append('restarUno', restarUno)
-
-        fetch(url, {
-                method: 'POST',
-                body: formData,
-                mode: 'cors'
-
-            })
-            .then(response => {
-                console.log('formdata', response)
-                if (!response.ok) {
-                    throw new Error("Error HTTP: " + response.status);
-                }
-                return response.json();
-                console.log(response);
-            })
-
-
-            .then(data => {
-                if (data.ok) {
-                    // actualizar subtotal, unidades de producto
-                    let divSubtotal = document.getElementById('subtotal_' + id)
-                    if (divSubtotal) {
-                        divSubtotal.innerHTML = data.sub
-                        console.log("Elemento", data.sub)
-                    }
-                    // actualizar total de productos del carrito
-                    let divTotal = document.getElementById('total')
-                    if (divTotal) {
-                        divTotal.innerHTML = data.total
-                        console.log("Elemento", data.total)
-                    }
-
-
-                    let elemento = document.getElementById('num_cart')
-                    elemento.innerHTML = data.numero; //data.numero para actualizar el DOM en tiempo real.
-                    console.log("El elemento ", elemento)
-                }
-            })
-            .catch(error => {
-                console.error("Error en el fetch", error);
-            })
-    }
-</script>
 
 </html>

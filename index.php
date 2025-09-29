@@ -1,7 +1,16 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+define("KEY_TOKEN", "TOKEN");
+define("MONEDA", "ARS ");
+define('DB_HOST', 'mysql:host=localhost;dbname=tienda_online;charset=utf8');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+
 require 'controller/plantillaController.php';
 require 'controller/productosController.php';
 require 'controller/enlacesController.php';
@@ -10,12 +19,6 @@ require 'model/enlacesModel.php';
 require 'clases/actualizar_carrito.php';
 
 
-define("KEY_TOKEN", "TOKEN");
-define("MONEDA", "ARS ");
-
-define('DB_HOST', 'mysql:host=localhost;dbname=tienda_online;charset=utf8');
-define('DB_USER', 'root');
-define('DB_PASS', '');
 
 
 if (!isset($_SESSION['carrito'])) { //comprobamos que exista para no pisar lo que ya tengo en el carritp

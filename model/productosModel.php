@@ -11,26 +11,14 @@ class ProductosModel
         $db = Conexion::conectar();
 
 
-        $sql = $db->prepare("SELECT id, nombre, descripcion, precio FROM $tabla WHERE activo = 1");
+        $sql = $db->prepare("SELECT id, nombre, descripcion, precio, img FROM $tabla WHERE activo = 1");
 
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
-    #Traerme el precio y el descueto por ID
 
-    public static function traerProductoPorId($tabla, $id)
-    {
-
-        $db = Conexion::conectar();
-
-        $sql = $db->prepare("SELECT precio, descuento FROM $tabla WHERE id = $id AND activo = 1");
-
-        if ($sql->execute()) {
-            return $sql->fetch(PDO::FETCH_ASSOC);
-        }
-    }
 
     #Traerme el producto 
 
@@ -45,12 +33,26 @@ class ProductosModel
 
         if ($resultado > 0) {
 
-            $stmt = $db->prepare("SELECT nombre, descripcion, precio, descuento FROM $tabla WHERE id = ? AND activo = 1 LIMIT 1");
+            $stmt = $db->prepare("SELECT nombre, descripcion, precio, descuento, img FROM $tabla WHERE id = ? AND activo = 1 LIMIT 1");
             $stmt->execute([$id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return $row;
         }
         return false;
+    }
+
+
+    public static function buscarModel($tabla, $search)
+    {
+        $db = Conexion::conectar();
+        $stmt = $db->prepare("SELECT id, nombre, descripcion, precio,img FROM $tabla WHERE nombre LIKE :nombre");
+        $stmt->bindValue(':nombre', "%$search%", PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return false;
+        }
     }
 }

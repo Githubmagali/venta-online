@@ -6,19 +6,19 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--Tailwind-->
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
         <title>Tienda online</title>
 
     <body class="bg-gray-100">
 
-        <div class="flex justify-between items-center bg-gray-50 py-5 px-20 ">
+        <div class="d-flex justify-content-between">
             <div>Logo</div>
             <div class="flex gap-x-5" id="menu">
                 <a href="">Inicio</a>
                 <a href="">Salir</a>
             </div>
         </div>
+
         <div>
 
             <div class="max-w-6xl mx-auto py-10 px-5">
