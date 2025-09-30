@@ -1,14 +1,17 @@
 <?php
 
-//print_r($_SESSION);
-
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
 $token_tmp = "";
 $data = new productosController();
 $row = $data->getProductoControllerId($id);
-#print_r($row);
-#print_r($_SESSION);
+
+foreach ($_SESSION['carrito'] as $producto => $item) {
+    if ($item['id'] == $id) {
+        $subtotal = $item['precio'] * $item['cantidad'];
+    }
+}
+
 if (isset($_POST['btnPost'])) {
     $producto = $_POST['productoPost'];
     $precio   = $_POST['precioPost'];
@@ -45,7 +48,6 @@ if (isset($_POST['btnBorrarPost'])) {
         unset($_SESSION['carrito'][$producto]);
     }
 }
-
 
 
 ?>
@@ -104,6 +106,9 @@ if (isset($_POST['btnBorrarPost'])) {
                             <button type="submit" name="btnBorrarPost" class=" btn btn-danger">
                                 Borrar unidad
                             </button>
+                        </div>
+                        <div>
+                            <?= MONEDA . number_format($subtotal, 2, ',', '.') ?>
                         </div>
                     </form>
                 </div>
