@@ -5,7 +5,7 @@ $token = isset($_GET['token']) ? $_GET['token'] : '';
 $token_tmp = "";
 $data = new productosController();
 $row = $data->getProductoControllerId($id);
-print_r($_SESSION);
+#print_r($_SESSION);
 foreach ($_SESSION['carrito'] as $producto => $item) {
     if ($item['id'] == $id) {
         $subtotal = $item['precio'] * $item['cantidad'];
@@ -32,6 +32,8 @@ if (isset($_POST['btnPost'])) {
             'id' => $id
         ];
     }
+    header("Location: index.php?view=detalles&id=" . $id . "&token=" . $token);
+    exit;
 }
 if (isset($_POST['btnBorrarPost'])) {
     $producto = $_POST['productoPost'];
@@ -47,6 +49,9 @@ if (isset($_POST['btnBorrarPost'])) {
     if ($_SESSION['carrito'][$producto]['cantidad'] <= 0) {
         unset($_SESSION['carrito'][$producto]);
     }
+
+    header("Location: index.php?view=detalles&id=" . $id . "&token=" . $token);
+    exit;
 }
 
 
