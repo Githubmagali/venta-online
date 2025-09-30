@@ -15,6 +15,35 @@ $resul = $datos->productosController();
     <title>Tienda online</title>
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
 </head>
+<style>
+    .contenedor-img {
+        width: 600px;
+        height: 200px;
+        background-image: url("img/borcegos-negros.png");
+        background-size: cover;
+        /* Recorta y llena todo */
+        background-position: center;
+        /* Centra la parte visible */
+        background-repeat: no-repeat;
+    }
+
+    .contenedor-row-css {
+        width: auto;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .contenedor-row-css-img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        /* para cortar el excedente */
+        object-position: center;
+        /*  para centrar la parte visible */
+        display: block;
+    }
+</style>
+
 
 <body class="d-flex flex-column  min-vh-100">
 
@@ -49,9 +78,10 @@ $resul = $datos->productosController();
                     ?>
                         <div class="col-12 col-md-6 col-lg-3 mb-4">
                             <div class="card h-100">
-                                <div class=" bg-gray-300 rounded-lg flex items-center justify-center">
-                                    <img src="img/<?= $item['img'] ?>" class="img-fluid" />
+                                <div class="contenedor-row-css">
+                                    <img src="img/<?= $item['img'] ?>" class="contenedor-row-css-img" />
                                 </div>
+
                                 <div class="card-body d-flex flex-column">
                                     <h4 class="mt-4 font-semibold text-lg"><?= $item['nombre'] ?></h4>
                                     <p class="text-gray-500 text-sm"><?= $item['descripcion'] ?></p>
@@ -71,6 +101,16 @@ $resul = $datos->productosController();
                 </div>
             </div>
         </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="d-flex align-content-center">
+                    <div class="col-12 contenedor-img"></div>
+                </div>
+            </div>
+        </div>
+
+
     </main>
     <!--Footer -->
     <footer class="bg-secondary-subtle text-white bg-opacity-100 text-center py-3 mt-5">

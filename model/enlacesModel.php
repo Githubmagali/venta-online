@@ -13,20 +13,11 @@ class enlacesModel
             case 'check':
                 $ruta = "view/check.php";
                 break;
-            case 'checkout':
-                $ruta = "view/checkout.php";
-                break;
-            case 'compras':
-                $ruta = "view/compras.php";
-                break;
             case 'detalles':
                 $ruta = "view/detalles.php";
                 break;
             case 'carrito':
                 $ruta = "view/carrito.php";
-                break;
-            case 'ajax':
-                $ruta = "view//ajax.php";
                 break;
             case 'salir':
                 $ruta = "view/salir.php";

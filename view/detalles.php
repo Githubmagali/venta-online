@@ -5,7 +5,7 @@ $token = isset($_GET['token']) ? $_GET['token'] : '';
 $token_tmp = "";
 $data = new productosController();
 $row = $data->getProductoControllerId($id);
-
+print_r($_SESSION);
 foreach ($_SESSION['carrito'] as $producto => $item) {
     if ($item['id'] == $id) {
         $subtotal = $item['precio'] * $item['cantidad'];
@@ -61,6 +61,7 @@ if (isset($_POST['btnBorrarPost'])) {
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
 </head>
 
+
 <body class="d-flex flex-column  min-vh-100">
 
     <main class="flex-fill">
@@ -86,8 +87,6 @@ if (isset($_POST['btnBorrarPost'])) {
                         <img src="img/<?= $row['img'] ?>" class="img-fluid" alt="<?= $row['nombre'] ?>">
                     </div>
                 </div>
-
-
                 <div class="col-12 col-lg-6">
                     <form method="post" class="d-flex flex-column gap-3">
                         <h2 class="h3"><?= $row['nombre'] ?></h2>
@@ -114,7 +113,9 @@ if (isset($_POST['btnBorrarPost'])) {
                 </div>
             </div>
         </div>
+
     </main>
+
 
     <!--Footer -->
     <footer class="bg-secondary-subtle text-white bg-opacity-100 text-center py-3 mt-5">
