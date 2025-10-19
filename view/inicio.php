@@ -12,7 +12,7 @@ $resul = $datos->productosController();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda online</title>
+    <title>Tienda online :</title>
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
 </head>
 <style>
