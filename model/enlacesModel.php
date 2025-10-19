@@ -16,8 +16,14 @@ class enlacesModel
             case 'detalles':
                 $ruta = "view/detalles.php";
                 break;
+            case 'prueba':
+                $ruta = "view/prueba.php";
+                break;
             case 'carrito':
                 $ruta = "view/carrito.php";
+                break;
+            case 'prueba-css':
+                $ruta = "view/prueba-css.php";
                 break;
             case 'salir':
                 $ruta = "view/salir.php";

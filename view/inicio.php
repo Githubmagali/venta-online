@@ -1,123 +1,151 @@
+<?php
+
+$datos = new productosController();
+$resul = $datos->productosController();
+
+#print_r($_SESSION);
+
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Producto Ejemplo</title>
-    <style>
-    body {
-        font-family: Arial, sans-serif;
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 20px;
-        background: #fafafa;
-    }
-
-    .price-container h4 {
-        display: inline-block;
-        margin-right: 10px;
-    }
-
-    .product-variants select,
-    .product-quantity input,
-    .product-file input {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 15px;
-    }
-
-    .btn {
-        display: inline-block;
-        background: #007bff;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    .btn:disabled {
-        background: #aaa;
-        cursor: not-allowed;
-    }
-
-    .free-shipping-message {
-        background: #e6f6e6;
-        border: 1px solid #8cd98c;
-        padding: 10px;
-        margin: 15px 0;
-        border-radius: 4px;
-    }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda online</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
 </head>
+<style>
+    .contenedor-img {
+        width: 600px;
+        height: 200px;
+        background-image: url("img/borcegos-negros.png");
+        background-size: cover;
+        /* Recorta y llena todo */
+        background-position: center;
+        /* Centra la parte visible */
+        background-repeat: no-repeat;
+    }
 
-<body>
+    .contenedor-row-css {
+        width: auto;
+        height: 200px;
+        overflow: hidden;
+    }
 
-    <h2>Nombre del producto</h2>
+    .contenedor-row-css-img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        /* para cortar el excedente */
+        object-position: center;
+        /*  para centrar la parte visible */
+        display: block;
+    }
+</style>
 
-    <!-- Precio -->
-    <div class="price-container">
-        <h4 class="price-compare" style="text-decoration: line-through; color: gray;">$12.000</h4>
-        <h4 class="price">$9.999</h4>
-    </div>
 
-    <!-- Promoción -->
-    <div class="promotion">
-        <p><strong>10% de descuento</strong> pagando con tarjeta VISA</p>
-    </div>
+<body class="d-flex flex-column  min-vh-100">
 
-    <!-- Envío gratis -->
-    <div class="free-shipping-message">
-        <strong>Envío gratis</strong> superando los $15.000<br>
-        <small>No acumulable con otras promociones</small>
-    </div>
+    <main class="flex-fill">
+        <div
+            class="col-12 d-flex flex-column flex-lg-row justify-content-lg-between py-3 bg-body-tertiary align-items-lg-center">
+            <div class="mb-3 mb-lg-0">Logo</div>
 
-    <!-- Formulario del producto -->
-    <form id="product_form" class="js-product-form" method="post" action="/carrito">
+            <div class="d-flex flex-column align-items-lg-center flex-lg-row gap-2 gap-lg-4" id="menu">
+                <a href="index.php?view=inicio">Inicio</a>
+                <a href="index.php?view=check">Comprar</a>
+                <a href="index.php?view=carrito">Carrito</a>
 
-        <!-- ID oculto -->
-        <input type="hidden" name="add_to_cart" value="12345">
 
-        <!-- Variantes -->
-        <div class="product-variants">
-            <label for="variant">Talle o color:</label>
-            <select name="variant" id="variant">
-                <option value="1">Talle S</option>
-                <option value="2">Talle M</option>
-                <option value="3">Talle L</option>
-            </select>
+                <div class="position-relative">
+                    <input type="text" id="buscar" class="border rounded-5 border-dark" placeholder="Buscar...">
+                    <div id="resultados" class="list-group position-absolute end-0 mt-1 shadow w-100">
+
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Input de cantidad -->
-        <div class="product-quantity">
-            <label for="quantity">Cantidad:</label>
-            <input type="number" id="quantity" name="quantity" min="1" value="1">
+
+
+        <div class="max-w-6xl mx-auto py-10 px-5" style="padding-top: 80px;">
+
+            <!-- Contenedor de productos -->
+            <div class="container">
+                <div class="row">
+                    <?php foreach ($resul as $item) {
+                    ?>
+                        <div class="col-12 col-md-6 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="contenedor-row-css">
+                                    <img src="img/<?= $item['img'] ?>" class="contenedor-row-css-img" />
+                                </div>
+
+                                <div class="card-body d-flex flex-column">
+                                    <h4 class="mt-4 font-semibold text-lg"><?= $item['nombre'] ?></h4>
+                                    <p class="text-gray-500 text-sm"><?= $item['descripcion'] ?></p>
+                                    <p class="text-gray-500 text-sm">
+                                        $<?= number_format($item['precio'], 2, ',', '.'); ?>
+                                    </p>
+                                    <a class="mt-3 bg-blue-500  px-4 py-2 rounded-lg hover:bg-blue-600"
+                                        href="index.php?view=detalles&id=<?= $item['id'] ?>&token=<?= hash_hmac('sha1', $item['id'], KEY_TOKEN) ?>">
+                                        Detalles</a>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
         </div>
 
-        <!-- Input para subir archivo -->
-        <div class="product-file">
-            <label for="custom_file">Subí una imagen o archivo (opcional):</label>
-            <input type="file" id="custom_file" name="custom_file">
+        <div class="container">
+            <div class="row">
+                <div class="d-flex align-content-center">
+                    <div class="col-12 contenedor-img"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- Botón CTA -->
-        <input type="submit" class="btn" value="Agregar al carrito">
 
-        <!-- Mensaje cuando se agregó -->
-        <p style="display:none;" class="added-message">Ya agregaste este producto. <a href="/carrito">Ver carrito</a>
-        </p>
+    </main>
+    <!--Footer -->
+    <footer class="bg-secondary-subtle text-white bg-opacity-100 text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; <?= date('Y') ?> Fernandez Magali Victoria</p>
+            <p class="mb-0">
+                <a href="#" class="text-white text-decoration-none me-3">Política de privacidad</a>
+                <a href="#" class="text-white text-decoration-none">Contacto</a>
+            </p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#buscar").keyup(function() {
+                let consulta = $(this).val();
 
-    </form>
+                if (consulta != "") {
+                    $.ajax({
+                        url: "clases/buscar.php",
+                        method: "POST",
+                        data: {
+                            query: consulta
+                        },
+                        success: function(data) {
+                            $("#resultados").html(data);
+                        }
+                    });
+                } else {
+                    $("#resultados").html("");
+                }
+            });
+        });
+    </script>
 
-    <!-- Descripción -->
-    <div class="product-description">
-        <h3>Descripción</h3>
-        <p>
-            Este es un producto de ejemplo. Ideal para ver cómo se renderizan los componentes
-            de una página de producto, incluyendo precio, variantes, cantidad, y CTA.
-        </p>
-    </div>
 
 </body>
 
