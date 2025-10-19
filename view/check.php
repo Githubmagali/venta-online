@@ -80,7 +80,7 @@ if (isset($_POST['eliminar'])) {
                                     style="height:250px; overflow:hidden;">
                                     <img src="img/<?= $item['img'] ?>" class=" w-100 h-100" style="object-fit:cover;">
                                 </div>
-                                <div class="card-body d-flex flex-column">
+                                <div class="card-body    d-flex flex-column">
 
                                     <h5 class="mt-4 font-semibold text-lg"><?= htmlspecialchars($item['nombre']) ?></h5>
                                     <p class="text-gray-500 text-sm min"><?= $item['descripcion'] ?></p>
@@ -88,7 +88,7 @@ if (isset($_POST['eliminar'])) {
                                         <?= MONEDA . " " . number_format($item['precio'], 2) ?></p>
 
                                     <div class="mb-3">
-                                        <label for="cantidad_<?= $item['id'] ?>" class="form-label">Cantidad:</label>
+                                        <label for="cantidad_<?= $item['id'] ?>" class="form-label">Cantidad :</label>
                                         <input type="number" min="1" name="cantidadPost" id="cantidad_<?= $item['id'] ?>"
                                             value="<?= isset($_SESSION['carrito'][$item['nombre']]['cantidad']) ? $_SESSION['carrito'][$item['nombre']]['cantidad'] : 1 ?>"
                                             class="form-control text-center">
