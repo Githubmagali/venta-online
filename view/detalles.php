@@ -6,7 +6,7 @@ $token_tmp = "";
 $data = new productosController();
 $row = $data->getProductoControllerId($id);
 #print_r($_SESSION);
-foreach ($_SESSION['carrito'] as $producto => $item) {
+foreach ($_SESSION['carrrito'] as $producto => $item) {
     if ($item['id'] == $id) {
         $subtotal = $item['precio'] * $item['cantidad'];
     }
